@@ -68,6 +68,32 @@ def cmd_demo():
     special()
 
 
+# 查询pip安装的python工具以及其版本
+def pip_freeze_list(width=20):
+
+    for item in Process("pip3 freeze").run().output.split('\n'):
+
+        if len(item) and len(RegExpString(item).search_with_pattern(r'.+0[.]0[.]0$').search_result) == 0:
+
+            tmp_list = item.split('==')
+            name = tmp_list[0]
+            ver = tmp_list[1]
+            print('%s %s' % (name.ljust(width), ver))
+
+
+# 查询pip安装的python工具以及其详细信息
+def pip_freeze_detail_list(width=20):
+
+    for item in Process("pip3 freeze").run().output.split('\n'):
+
+        if len(item) and len(RegExpString(item).search_with_pattern(r'.+0[.]0[.]0$').search_result) == 0:
+
+            tmp_list = item.split('==')
+            name = tmp_list[0]
+            print(Process("pip3 show %s" % name).run().output)
+
 # regexp_demo()
 # networking_demo()
 # cmd_demo()
+pip_freeze_list()
+# pip_freeze_detail_list()
