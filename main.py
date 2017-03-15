@@ -1,6 +1,7 @@
 from personal_python_collections.cmd_utility import *
 from personal_python_collections.networking import *
 from personal_python_collections.regexp_string import *
+from personal_python_collections.file_manager import *
 
 
 # personal_python_collections.regexp_string的使用
