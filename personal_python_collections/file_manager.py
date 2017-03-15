@@ -280,26 +280,31 @@ class FileObjectManager:
 
 class Dir:
 
-    def __init__(self, dir_path):
+    def __init__(self, dir_path=None):
 
         self.__dir_path = dir_path
+        self.__result_path = os.getcwd()
 
-    def __add__(self, file_name):
+    @property
+    def path(self):
         """
-        与文件名组合
+        文件路径
         :return: :class:`str <str>` object
         :rtype: str
         """
+        return self.__result_path
 
-        return os.path.join(self.__dir_path, file_name)
+    def file_name(self, file_name):
 
-    @staticmethod
-    def path():
-        """
-        当前文件夹路径
-        :return: :class:`str <str>` object
-        :rtype: str
-        """
+        dir_path = None
 
-        return os.getcwd()
+        if not self.__dir_path:
+            dir_path = os.getcwd()
+        else:
+            dir_path = self.__dir_path
+
+        self.__result_path = os.path.join(dir_path, file_name)
+
+        return self
+
 
