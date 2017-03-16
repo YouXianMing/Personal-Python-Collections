@@ -4,6 +4,15 @@ from personal_python_collections.regexp_string import *
 from personal_python_collections.file_manager import *
 
 
+# personal_python_collections.file_manager的使用
+def file_manager_demo():
+
+    for item in FileObjectManager(FileObject(File.path())).scan_with_depth(1).all_file_objects():
+
+        file = FileObject.item(item)
+        file.show_info()
+
+
 # personal_python_collections.regexp_string的使用
 def regexp_demo():
     # 查询的例子
@@ -93,8 +102,10 @@ def pip_freeze_detail_list(width=20):
             name = tmp_list[0]
             print(Process("pip3 show %s" % name).run().output)
 
+file_manager_demo()
 # regexp_demo()
 # networking_demo()
 # cmd_demo()
-pip_freeze_list()
+# pip_freeze_list()
 # pip_freeze_detail_list()
+
