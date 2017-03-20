@@ -2,6 +2,51 @@ from personal_python_collections.cmd_utility import *
 from personal_python_collections.networking import *
 from personal_python_collections.regexp_string import *
 from personal_python_collections.file_manager import *
+from personal_python_collections.BeautifulSoup_utility import *
+
+
+# personal_python_collections.BeautifulSoup_utility的使用
+def beautifulSoup_utility_demo():
+
+    web_string = """
+                    <div class="download_content">
+                    <div class="download_pic">
+                        <a href="http://www.gamersky.com/Soft/201406/375305.shtml" target="_blank"><img style="width:110px" alt="《植物大战僵尸：花园战争》XBOX360简体中文GOD版下载" src="http://img1.gamersky.com/image2014/06/20140624g_1/gamersky_01small_02_20146241850859.jpg" /></a>
+                    </div>
+                    <div class="content_right">
+                        <div class="download_title"><a href="http://www.gamersky.com/Soft/201406/375305.shtml" title="《植物大战僵尸：花园战争》XBOX360简体中文GOD版下载" target="_blank">《植物大战僵尸：花园战争》XBOX360简体中文G</a></div>
+                        <div class="download_short">
+                            <ul>
+                                <li><span class="short_title">上市时间：</span><span class="short_content">2014-06-25</span><span class="short_title">游戏大小：</span><span class="short_content">2.31 GB</span></li>
+                                <li><span class="short_title">游戏类型：</span><span class="short_content"><a href="/Soft/tv/xbox360/2-0-3-0-0-0-0-00.html">第三人称射击</a></span><span class="short_title">游戏语言：</span><span class="short_content"><a href="/Soft/tv/xbox360/0-0-3-0-0-0-0-00.html">简体中文</a></span></li>
+                                <li class="noneboder"><span class="short_title">游戏下载：</span><span class="short_content"><a href="http://www.gamersky.com/Soft/201406/375305.shtml" target="_blank">点击进入</a></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+    """
+    soup_manager = BeautifulSoupManager(web_string)
+
+    for item in soup_manager.find_all('div', 'class = download_content'):
+
+        # 开始查找所有的子节点
+        for data in item.descendants:
+
+            # 确保是Tag对象
+            if BeautifulSoupElement(data).is_Tag:
+
+                # 找到了div class="download_title"的Tag
+                if BeautifulSoupElement(data).is_match('div', 'class = download_title'):
+                    print("网页名字：%s" % data.string)
+
+                # 找到了div class="download_pic"的Tag
+                if BeautifulSoupElement(data).is_match('div', 'class = download_pic'):
+                    print("下载地址：%s" % data.a['href'])
+                    print("图片地址：%s" % data.a.img['src'])
+
+                # 找到span class="short_title"的Tag
+                if BeautifulSoupElement(data).is_match('span', 'class = short_title'):
+                    print("%s%s" % (data.string, data.next_sibling.string))
 
 
 # personal_python_collections.file_manager的使用
@@ -102,7 +147,8 @@ def pip_freeze_detail_list(width=20):
             name = tmp_list[0]
             print(Process("pip3 show %s" % name).run().output)
 
-file_manager_demo()
+beautifulSoup_utility_demo()
+# file_manager_demo()
 # regexp_demo()
 # networking_demo()
 # cmd_demo()
